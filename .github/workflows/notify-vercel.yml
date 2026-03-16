@@ -1,0 +1,15 @@
+name: Notify Vercel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify-vercel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: notify vercel
+        uses: vercel/repository-dispatch/actions/status@v1
+        with:
+          name: Vercel - english-maktabi: lint
