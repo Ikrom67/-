@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Health check
-router.get('/health', (req, res) => {
+router.getapp.get('/api/health', async (req, res) => {
   res.json({ status: 'ok', uptime: process.uptime(), timestamp: Date.now() });
 });
 
