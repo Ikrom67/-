@@ -3,190 +3,336 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>English Maktabi - Onlayn Ingliz Tili Maktabi</title>
+  <title>English Maktabi</title>
   <style>
-    :root {
-      --bg: #f4faff;
-      --card: #ffffff;
-      --primary: #2e6ad4;
-      --accent: #ff7a59;
-      --text: #1f2937;
-      --muted: #4b5563;
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: radial-gradient(circle at top, #e8f1ff 0%, var(--bg) 60%); color: var(--text); line-height: 1.5; }
-    .page { min-height: 100vh; display: grid; place-items: center; padding: 2rem; }
-    .card { background: var(--card); border-radius: 22px; width: min(960px, 100%); box-shadow: var(--shadow); padding: 2rem; border: 1px solid #e8efff; }
-    .top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-    .logo { font-weight: 800; letter-spacing: -0.02em; color: var(--primary); }
-    .hero { font-size: clamp(1.6rem, 4vw, 2.8rem); line-height: 1.15; margin-bottom: 0.75rem; }
-    .sub { color: var(--muted); margin-bottom: 1.15rem; max-width: 70ch; }
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap: 0.7rem; margin-top: 1rem; }
-    .feature { border: 1px solid #e8efff; border-radius: 12px; padding: 0.85rem 0.9rem; background: #f9fbff; }
-    .feature strong { display: block; margin-bottom: 0.25rem; color: #1f3d8f; }
-    .actions { margin-top: 1.4rem; display: flex; gap: 0.7rem; flex-wrap: wrap; }
-    .btn { border: none; border-radius: 10px; padding: 0.72rem 1rem; font-weight: 700; cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
-    .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 8px 16px rgba(46, 106, 212, 0.28); }
-    .btn-secondary { background: #fff; color: #2d3e5d; border: 1px solid #d6e2ff; }
-    .btn:hover { transform: translateY(-1px); }
-    .testimonial { margin-top: 1.6rem; background: #eef5ff; border-left: 4px solid var(--primary); border-radius: 10px; padding: 0.95rem 1rem; color: #1f2937; }
-    .cta { margin-top: 1.2rem; background: #fff; border-radius: 12px; padding: 1rem; border: 1px solid #e8efff; }
-    .footer { margin-top: 1.2rem; color: #6b7280; font-size: .92rem; }
+    :root { --bg:#f3f7ff; --card:#fff; --primary:#2e6ad4; --secondary:#0f172a; --muted:#475569; --danger:#dc2626; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#eef4ff,#f8fbff);color:#0f172a;}
+    .app{max-width:1100px;margin:0 auto;padding:0 1rem 2rem;}
+    .site-header{display:flex;align-items:center;justify-content:space-between;margin:1rem 0;gap:.5rem;}
+    .logo{font-weight:900;color:#1d4ed8;font-size:1.25rem;letter-spacing:-.02em;}
+    .nav{display:flex;gap:.35rem;flex-wrap:wrap;}
+    .nav a,.nav button{background:#fff;border:1px solid #dbeafe;padding:.42rem .7rem;border-radius:10px;color:#1e293b;text-decoration:none;font-weight:700;font-size:.86rem;cursor:pointer;}
+    .nav a.active{background:#2e6ad4;color:#fff;border-color:#2e6ad4;}
+    .hero{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 6px 20px rgba(15,23,42,0.06);}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:1rem;box-shadow:0 4px 16px rgba(15,23,42,0.06);}
+    .btn{border:none;border-radius:10px;padding:.55rem .9rem;font-weight:700;cursor:pointer;transition:.12s ease;}
+    .btn-primary{background:#1d4ed8;color:#fff;}
+    .btn-secondary{background:#e2e8f0;color:#1f2937;}
+    .btn:hover{opacity:.9;transform:translateY(-1px);}
+    .hidden{display:none !important;}
+    .section{margin-top:1rem;}
+    h2{font-size:1.4rem;margin-bottom:.7rem;}
+    .input{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:.55rem .65rem;margin-bottom:.45rem;font-size:.95rem;}
+    .message{min-height:1rem;font-size:.9rem;margin-top:.2rem;}
+    .course-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.75rem;}
+    .course-card{border:1px solid #e2e8f0;border-radius:12px;padding:1rem;background:#fff;display:flex;flex-direction:column;gap:.5rem;}
+    .course-title{font-weight:800;font-size:.98rem;}
+    .pill{background:#e0e7ff;color:#1d4ed8;border-radius:999px;padding:.2rem .5rem;font-size:.75rem;font-weight:700;}
+    .list{list-style:disc;margin-left:1rem;margin-bottom:.5rem;}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:40;display:none;}
+    .modal{position:fixed;z-index:50;top:50%;left:50%;transform:translate(-50%,-50%);max-width:500px;width:min(95%,500px);background:#fff;padding:1rem;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.25);display:none;}
+    .modal h3{margin-bottom:.5rem;}
+    .modal-close{border:none;background:#ef4444;color:#fff;border-radius:8px;padding:.3rem .45rem;cursor:pointer;float:right;}
+    .footer{margin-top:2rem;padding:1rem 0;color:#475569;font-size:.88rem;text-align:center;}
+    .error{color:#dc2626;}
+    .warning{color:#b45309;}
   </style>
 </head>
 <body>
-  <main class="page">
-    <section class="card">
-      <div class="top">
-        <div>
-          <p class="logo">English Maktabi</p>
-          <p style="color:#6b7280; font-size:.95rem;">Onlayn ingliz tili maktabi</p>
+  <div class="app">
+    <header class="site-header">
+      <div>
+        <div class="logo">English Maktabi</div>
+        <div style="font-size:.84rem;color:#475569;">Onlayn ingliz tili maktabi</div>
+      </div>
+      <nav class="nav" id="main-nav">
+        <a href="#home" data-route="home" class="active">Home</a>
+        <a href="#courses" data-route="courses">Courses</a>
+        <a href="#dashboard" data-route="dashboard" id="dashboard-link">Dashboard</a>
+        <a href="#contact" data-route="contact">Contact</a>
+        <button id="open-login" class="btn btn-secondary">Login</button>
+        <button id="open-register" class="btn btn-secondary">Register</button>
+        <button id="logout-btn" class="btn btn-secondary hidden">Logout</button>
+      </nav>
+    </header>
+
+    <section id="home" class="section">
+      <div class="hero">
+        <h1 style="font-size:1.9rem;">Ingliz tilini tez, ishonchli va qiziqarli o‘rganing.</h1>
+        <p style="margin-top:.5rem;color:#475569;">Intensiv kurslar, mentorlar, interaktiv topshiriqlar va shaxsiy yo‘l-yo‘riq bilan muvaffaqiyat qozoning.</p>
+        <div style="margin-top:.8rem;display:flex;gap:.5rem;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="navigate('courses')">Kurslarni ko‘rish</button>
+          <button class="btn btn-secondary" onclick="navigate('contact')">Biz bilan aloqa</button>
         </div>
-        <div style="text-align:right; color:#475569; font-size:.9rem;">Foydalanuvchi: 12 500+ talabalar</div>
       </div>
-
-      <h1 class="hero">Ingliz tilini tez, ishonchli va qiziqarli o‘rganing</h1>
-      <p class="sub">English Maktabi bilan har kuni 20 daqiqada so‘z boyligingizni, tinglab tushunish va gapirish ko‘nikmalaringizni mustahkamlang. O‘qituvchilar, live darslar, interaktiv mashqlar va shaxsiy rivojlanish yo‘nalishlari bir joyda.</p>
-
-      <div class="actions">
-        <button id="open-register" class="btn btn-primary">Endi Ro‘yxatdan O‘tish</button>
-        <button id="open-login" class="btn btn-secondary">Kirish</button>
-        <button id="open-curriculum" class="btn btn-secondary">Darslar Dasturi</button>
+      <div class="grid">
+        <div class="card"><h3>📌 Bizning maqsad</h3><p style="color:#475569;">Har bir talaba uchun samarali, oson tushunarli, amaliy Ingliz tili darslari taqdim etish.</p></div>
+        <div class="card"><h3>✅ O‘quv natijasi</h3><p style="color:#475569;">60 kun ichida muloqotda ishonch hosil qilish, imtihonlarga tayyorlanish va CV uchun qat’iy yozish.</p></div>
       </div>
-
-      <div class="features">
-        <article class="feature"><strong>📚 Intensiv Kurslar</strong><span>Boshlang‘ichdan professionalgacha 6 oylik reja.</span></article>
-        <article class="feature"><strong>🧑‍🏫 Onlayn Mentorlar</strong><span>Real vaqtda o‘qituvchilar + shaxsiy feedback.</span></article>
-        <article class="feature"><strong>🏆 Sertifikat</strong><span>Tayyor bo‘lgach rasmiy ingliz tili sertifikati oling.</span></article>
-        <article class="feature"><strong>🌍 Muloqot Klubi</strong><span>Hafta davomida ingliz tilida muloqot va prezentatsiya klubi.</span></article>
-      </div>
-
-      <div class="testimonial">
-        <p><strong>“Og‘zaki nutqim 2 haftada ancha yaxshilandi. Darslar tizimli, qo‘llab-quvvatlash ajoyib.”</strong></p>
-        <p style="margin-top:.35rem; color:#374151; font-size:.87rem;">— Nodir, dasturchi</p>
-      </div>
-
-      <div class="cta">
-        <h3>O‘rganishni boshlash uchun</h3>
-        <p>Bugun ro‘yxatdan o‘ting va birinchi darsni bepul sinovdan o‘tkazing.</p>
-      </div>
-
-      <div class="footer">© 2026 English Maktabi. Siz bilan birga tilni o‘zlashtiramiz.</div>
     </section>
-  </main>
 
-  <div id="modal-backdrop" class="modal-backdrop hidden"></div>
-
-  <div id="register-modal" class="modal hidden" aria-hidden="true">
-    <div class="modal-panel">
-      <div class="modal-header"><h3>Ro‘yxatdan o‘tish</h3><button class="modal-close" data-close="register-modal">✕</button></div>
-      <p class="modal-sub">Hisob ochish uchun maʼlumotlaringizni kiriting.</p>
-      <div class="modal-content">
-        <input id="register-name" class="input" placeholder="Ismingiz" />
-        <input id="register-email" class="input" type="email" placeholder="Email" />
-        <input id="register-password" class="input" type="password" placeholder="Parol" />
-        <button id="register-submit" class="btn btn-primary">Ro‘yxatdan o‘tish</button>
-        <div id="register-message" class="message"></div>
+    <section id="courses" class="section hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:.5rem;">
+        <div>
+          <h2>Kurslar</h2>
+          <p style="color:#475569;">3 to‘liq kurslar, har birining o‘quv dasturi, narxi va darslari.</p>
+        </div>
       </div>
-    </div>
+      <div class="course-list" id="course-list"></div>
+    </section>
+
+    <section id="dashboard" class="section hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;">
+        <div><h2>Talaba Dashboard</h2><p style="color:#475569;">Ro‘yxatdan o‘tgan profilingiz va kurslar.</p></div>
+        <div id="session-welcome" style="font-weight:700;color:#1d4ed8;"></div>
+      </div>
+      <div class="grid" style="margin-top:.8rem;">
+        <div class="card" id="profile-card"><h3>Profil</h3><p class="muted" id="profile-text"></p></div>
+        <div class="card"><h3>Qayd etilgan kurslar</h3><ul id="enrolled-list"></ul><p id="no-enrolled" style="color:#475569;"></p></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section hidden">
+      <h2>Kontakt</h2>
+      <p style="color:#475569;">Savol yoki fikringizni qoldiring, ustozlarimiz tez orada javob beradi.</p>
+      <div class="card" style="max-width:500px;">
+        <input id="contact-name" class="input" placeholder="Ismingiz" />
+        <input id="contact-email" class="input" placeholder="Email" />
+        <textarea id="contact-message" class="input" placeholder="Xabaringiz" style="height:110px;"></textarea>
+        <button id="contact-submit" class="btn btn-primary">Yuborish</button>
+        <div id="contact-status" class="message"></div>
+      </div>
+    </section>
+
+    <div class="footer">© 2026 English Maktabi. Hammasi localStorage va frontenddan boshqariladi.</div>
   </div>
 
-  <div id="login-modal" class="modal hidden" aria-hidden="true">
-    <div class="modal-panel">
-      <div class="modal-header"><h3>Kirish</h3><button class="modal-close" data-close="login-modal">✕</button></div>
-      <p class="modal-sub">Hisobingizga kiring.</p>
-      <div class="modal-content">
-        <input id="login-email" class="input" type="email" placeholder="Email" />
-        <input id="login-password" class="input" type="password" placeholder="Parol" />
-        <button id="login-submit" class="btn btn-primary">Kirish</button>
-        <div id="login-message" class="message"></div>
-      </div>
-    </div>
+  <div id="modal-backdrop" class="modal-backdrop"></div>
+  <div id="register-modal" class="modal" aria-hidden="true">
+    <button class="modal-close" data-close="register-modal">✕</button>
+    <h3>Ro‘yxatdan o‘tish</h3>
+    <input id="register-name" class="input" placeholder="Ism" />
+    <input id="register-email" class="input" type="email" placeholder="Email" />
+    <input id="register-password" class="input" type="password" placeholder="Parol" />
+    <button id="register-submit" class="btn btn-primary">Ro‘yxatdan o‘tish</button>
+    <div id="register-message" class="message"></div>
   </div>
 
-  <style>
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 30; }
-    .modal { position: fixed; inset: 0; display: grid; place-items: center; padding: 1rem; z-index: 40; }
-    .modal-panel { width: min(460px, 100%); background: #fff; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); border:1px solid #e4e8f2; padding: 1rem; }
-    .modal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.45rem; }
-    .modal-header h3 { margin:0; font-size:1.15rem; color:#1e293b; }
-    .modal-sub { color:#475569; font-size:.92rem; margin-bottom:.7rem; }
-    .modal-content { display:flex; flex-direction:column; gap:.55rem; }
-    .input { border:1px solid #d1d5db; border-radius:10px; padding:.62rem .7rem; width:100%; font-size:.95rem; }
-    .message { min-height:1.2rem; font-size:.9rem; margin-top:.25rem; color:#1d4ed8; }
-    .hidden { display:none !important; }
-  </style>
+  <div id="login-modal" class="modal" aria-hidden="true">
+    <button class="modal-close" data-close="login-modal">✕</button>
+    <h3>Kirish</h3>
+    <input id="login-email" class="input" type="email" placeholder="Email" />
+    <input id="login-password" class="input" type="password" placeholder="Parol" />
+    <button id="login-submit" class="btn btn-primary">Kirish</button>
+    <div id="login-message" class="message"></div>
+  </div>
+
+  <div id="curriculum-modal" class="modal" aria-hidden="true">
+    <button class="modal-close" data-close="curriculum-modal">✕</button>
+    <h3 id="curriculum-title">Kurs Dasturi</h3>
+    <ul id="curriculum-list"></ul>
+  </div>
 
   <script>
-    const showModal = (id) => {
-      document.getElementById('modal-backdrop').classList.remove('hidden');
-      document.getElementById(id).classList.remove('hidden');
-      document.getElementById(id).setAttribute('aria-hidden', 'false');
-    };
-    const hideModal = (id) => {
-      document.getElementById(id).classList.add('hidden');
-      document.getElementById(id).setAttribute('aria-hidden', 'true');
-      if (!document.querySelector('.modal:not(.hidden)')) {
-        document.getElementById('modal-backdrop').classList.add('hidden');
-      }
+    const courses = [
+      { id: 'starter', title: 'Starter Ingliz Tili', price: '125 000 so‘m', desc: 'Boshlang‘ichdan o‘rta bosqichga qadar, kundalik gaplashuv va grammatika.', lessons: ['Alifbo va talaffuz', 'Oddiy gaplar', 'Savol-javob', 'Present Simple', 'Oddiy dialog'] },
+      { id: 'business', title: 'Business Ingliz Tili', price: '215 000 so‘m', desc: 'Ish muhiti, email yozish, taqdimot va muzokaralar uchun.', lessons: ['Professional email', 'Meeting vocab', 'Presentation structure', 'Negotiation phrases', 'Reporting'] },
+      { id: 'ielts', title: 'IELTS Tayyorlov', price: '320 000 so‘m', desc: 'Listening, Reading, Writing, Speaking bo‘limlari bilan to‘liq tayyorlov.', lessons: ['Task 1 & 2', 'Listening strateegiyasi', 'Speaking part 1-3', 'Time management', 'Practice test'] }
+    ];
+
+    const routeSections = { home: 'home', courses: 'courses', dashboard: 'dashboard', contact: 'contact' };
+
+    const showSection = (route) => {
+      Object.values(routeSections).forEach((id) => {
+        document.getElementById(id).classList.toggle('hidden', id !== route);
+      });
+      document.querySelectorAll('#main-nav a').forEach((link) => {
+        const isActive = link.dataset.route === route;
+        link.classList.toggle('active', isActive);
+      });
     };
 
-    document.getElementById('open-register').addEventListener('click', () => showModal('register-modal'));
-    document.getElementById('open-login').addEventListener('click', () => showModal('login-modal'));
-    document.getElementById('open-curriculum').addEventListener('click', () => alert('Darslar dasturi: 1) Grammatika 2) So‘z boyligi 3) Tinglab tushunish.'));
-    document.querySelectorAll('.modal-close').forEach(btn => btn.addEventListener('click', (e) => hideModal(e.target.dataset.close)));
+    const navigate = (route) => {
+      window.location.hash = route;
+      renderRoute();
+    };
+
+    const renderRoute = () => {
+      const hash = window.location.hash.slice(1) || 'home';
+      const route = routeSections[hash] ? hash : 'home';
+      if (route === 'dashboard' && !getSession()) {
+        alert('Dashboardga kirish uchun avval login qiling.');
+        window.location.hash = 'home';
+        showSection('home');
+        return;
+      }
+      showSection(route);
+      if (route === 'courses') renderCourses();
+      if (route === 'dashboard') renderDashboard();
+      highlightActiveNav(route);
+    };
+
+    const highlightActiveNav = (route) => {
+      document.querySelectorAll('#main-nav a').forEach((link) => {
+        link.classList.toggle('active', link.dataset.route === route);
+      });
+    };
+
+    const getUsers = () => JSON.parse(localStorage.getItem('english_users') || '{}');
+    const setUsers = (val) => localStorage.setItem('english_users', JSON.stringify(val));
+    const setSession = (user) => localStorage.setItem('english_session', JSON.stringify(user));
+    const getSession = () => JSON.parse(localStorage.getItem('english_session') || 'null');
+    const clearSession = () => localStorage.removeItem('english_session');
+    const getEnrolled = () => JSON.parse(localStorage.getItem('english_enrolled') || '[]');
+    const setEnrolled = (val) => localStorage.setItem('english_enrolled', JSON.stringify(val));
+
+    const openModal = (id) => { document.getElementById('modal-backdrop').style.display = 'block'; const m=document.getElementById(id); m.style.display='block'; m.setAttribute('aria-hidden','false'); };
+    const closeModal = (id) => { document.getElementById(id).style.display='none'; document.getElementById(id).setAttribute('aria-hidden','true'); if (!document.querySelector('.modal[style*="display:block"]')) document.getElementById('modal-backdrop').style.display='none'; };
+
+    document.getElementById('open-register').addEventListener('click', () => openModal('register-modal'));
+    document.getElementById('open-login').addEventListener('click', () => openModal('login-modal'));
     document.getElementById('modal-backdrop').addEventListener('click', () => {
-      hideModal('register-modal');
-      hideModal('login-modal');
+      ['register-modal','login-modal','curriculum-modal'].forEach(closeModal);
     });
-
-    const handleForm = async (url, payload, messageEl) => {
-      messageEl.textContent = 'Yuborilmoqda...';
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.error || 'Servis bilan muammo yuz berdi');
-        }
-        messageEl.style.color = '#16a34a';
-        messageEl.textContent = data.message || 'Muvaffaqiyatli bajarildi';
-      } catch (error) {
-        messageEl.style.color = '#dc2626';
-        messageEl.textContent = error.message || 'Xatolik yuz berdi';
-      }
-    };
+    document.querySelectorAll('.modal-close').forEach((btn)=>btn.addEventListener('click', (e)=>closeModal(e.target.dataset.close)));
 
     document.getElementById('register-submit').addEventListener('click', () => {
       const name = document.getElementById('register-name').value.trim();
-      const email = document.getElementById('register-email').value.trim();
+      const email = document.getElementById('register-email').value.trim().toLowerCase();
       const password = document.getElementById('register-password').value.trim();
       const msg = document.getElementById('register-message');
-      if (!name || !email || !password) {
-        msg.style.color = '#dc2626';
-        msg.textContent = 'Iltimos, barcha maydonlarni to‘ldiring.';
-        return;
-      }
-      handleForm('/api/register', { name, email, password }, msg);
+      if (!name || !email || !password) { msg.className='message error'; msg.textContent='Iltimos barcha maydonlarni to‘ldiring.'; return; }
+      const users = getUsers();
+      if (users[email]) { msg.className='message error'; msg.textContent='Email allaqachon ro‘yxatga olingan.'; return; }
+      users[email] = { name, email, password };
+      setUsers(users);
+      setSession({ name, email });
+      msg.className='message'; msg.style.color='#16a34a'; msg.textContent='Ro‘yxatdan o‘tish muvaffaqiyatli.';
+      closeModal('register-modal');
+      updateNav();
+      renderDashboard();
+      navigate('dashboard');
     });
 
     document.getElementById('login-submit').addEventListener('click', () => {
-      const email = document.getElementById('login-email').value.trim();
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
       const password = document.getElementById('login-password').value.trim();
       const msg = document.getElementById('login-message');
-      if (!email || !password) {
-        msg.style.color = '#dc2626';
-        msg.textContent = 'Iltimos, email va parolni kiriting.';
-        return;
-      }
-      handleForm('/api/login', { email, password }, msg);
+      if (!email || !password) { msg.className='message error'; msg.textContent='Email va parolni kiriting.'; return; }
+      const user = getUsers()[email];
+      if (!user || user.password !== password) { msg.className='message error'; msg.textContent='Email yoki parol noto‘g‘ri.'; return; }
+      setSession({ name: user.name, email: user.email });
+      msg.className='message'; msg.style.color='#16a34a'; msg.textContent='Kirish muvaffaqiyatli.';
+      closeModal('login-modal');
+      updateNav();
+      renderDashboard();
+      navigate('dashboard');
     });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      clearSession();
+      updateNav();
+      navigate('home');
+    });
+
+    const renderCourses = () => {
+      const list = document.getElementById('course-list');
+      const enrolled = getEnrolled();
+      list.innerHTML = '';
+      courses.forEach((course) => {
+        const col = document.createElement('article');
+        col.className = 'course-card';
+        const isEnrolled = enrolled.includes(course.id);
+        col.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;"><div class="course-title">${course.title}</div><span class="pill">${course.price}</span></div>
+          <div style="color:#475569;font-size:.92rem;">${course.desc}</div>
+          <div style="margin-top:.35rem;"><button class="btn btn-secondary" data-curr="${course.id}">Kurs Dasturi</button> <button class="btn btn-primary" data-enroll="${course.id}">${isEnrolled ? 'Ro‘yxatdan o‘tilgan' : 'Ro‘yxatdan o‘tish'}</button></div>
+        `;
+        list.appendChild(col);
+      });
+      list.querySelectorAll('[data-curr]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.curr;
+          const course = courses.find(c => c.id === id);
+          if (!course) return;
+          document.getElementById('curriculum-title').textContent = `${course.title} - Darslar`;
+          const ul = document.getElementById('curriculum-list'); ul.innerHTML = '';
+          course.lessons.forEach((item) => { const li=document.createElement('li'); li.textContent = item; ul.appendChild(li); });
+          openModal('curriculum-modal');
+        });
+      });
+      list.querySelectorAll('[data-enroll]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const session = getSession();
+          if (!session) { alert('Ro‘yxatdan o‘tish yoki kirish orqali kursga yoziling.'); navigate('home'); return; }
+          const id = btn.dataset.enroll;
+          const enrolled = getEnrolled();
+          if (!enrolled.includes(id)) {
+            enrolled.push(id);
+            setEnrolled(enrolled);
+            renderCourses();
+            if (window.location.hash.slice(1) === 'dashboard') renderDashboard();
+          }
+        });
+      });
+    };
+
+    const renderDashboard = () => {
+      const session = getSession();
+      if (!session) return;
+      document.getElementById('session-welcome').textContent = `Salom, ${session.name}!`;
+      document.getElementById('profile-text').textContent = `Ism: ${session.name} | Email: ${session.email}`;
+      const enrolled = getEnrolled();
+      const list = document.getElementById('enrolled-list');
+      list.innerHTML = '';
+      if (!enrolled.length) {
+        document.getElementById('no-enrolled').textContent = 'Hozircha kurslarga yozilmadingiz.';
+      } else {
+        document.getElementById('no-enrolled').textContent = '';
+        enrolled.forEach((id) => {
+          const course = courses.find(c => c.id === id);
+          const li = document.createElement('li');
+          li.textContent = course ? `${course.title} (${course.price})` : id;
+          list.appendChild(li);
+        });
+      }
+    };
+
+    document.getElementById('contact-submit').addEventListener('click', () => {
+      const name = document.getElementById('contact-name').value.trim();
+      const email = document.getElementById('contact-email').value.trim();
+      const msg = document.getElementById('contact-message').value.trim();
+      const status = document.getElementById('contact-status');
+      if (!name || !email || !msg) { status.className='message error'; status.textContent='Iltimos barcha maydonlarni to‘ldiring.'; return; }
+      status.className='message'; status.style.color='#16a34a'; status.textContent='Xabaringiz yuborildi. Tez orada javob beramiz.';
+      document.getElementById('contact-name').value=''; document.getElementById('contact-email').value=''; document.getElementById('contact-message').value='';
+    });
+
+    const updateNav = () => {
+      const session = getSession();
+      const loginBtn = document.getElementById('open-login');
+      const registerBtn = document.getElementById('open-register');
+      const logoutBtn = document.getElementById('logout-btn');
+      if (session) {
+        loginBtn.classList.add('hidden');
+        registerBtn.classList.add('hidden');
+        logoutBtn.classList.remove('hidden');
+        document.getElementById('dashboard-link').classList.remove('hidden');
+      } else {
+        loginBtn.classList.remove('hidden');
+        registerBtn.classList.remove('hidden');
+        logoutBtn.classList.add('hidden');
+        document.getElementById('dashboard-link').classList.remove('hidden');
+      }
+    };
+
+    window.addEventListener('hashchange', renderRoute);
+
+    // initial
+    updateNav();
+    renderRoute();
   </script>
 </body>
 </html>
