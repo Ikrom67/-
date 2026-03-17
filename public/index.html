@@ -50,8 +50,9 @@
       <p class="sub">English Maktabi bilan har kuni 20 daqiqada so‘z boyligingizni, tinglab tushunish va gapirish ko‘nikmalaringizni mustahkamlang. O‘qituvchilar, live darslar, interaktiv mashqlar va shaxsiy rivojlanish yo‘nalishlari bir joyda.</p>
 
       <div class="actions">
-        <button class="btn btn-primary">Endi Ro‘yxatdan O‘tish</button>
-        <button class="btn btn-secondary">Darslar Dasturi</button>
+        <button id="open-register" class="btn btn-primary">Endi Ro‘yxatdan O‘tish</button>
+        <button id="open-login" class="btn btn-secondary">Kirish</button>
+        <button id="open-curriculum" class="btn btn-secondary">Darslar Dasturi</button>
       </div>
 
       <div class="features">
@@ -74,5 +75,118 @@
       <div class="footer">© 2026 English Maktabi. Siz bilan birga tilni o‘zlashtiramiz.</div>
     </section>
   </main>
+
+  <div id="modal-backdrop" class="modal-backdrop hidden"></div>
+
+  <div id="register-modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-header"><h3>Ro‘yxatdan o‘tish</h3><button class="modal-close" data-close="register-modal">✕</button></div>
+      <p class="modal-sub">Hisob ochish uchun maʼlumotlaringizni kiriting.</p>
+      <div class="modal-content">
+        <input id="register-name" class="input" placeholder="Ismingiz" />
+        <input id="register-email" class="input" type="email" placeholder="Email" />
+        <input id="register-password" class="input" type="password" placeholder="Parol" />
+        <button id="register-submit" class="btn btn-primary">Ro‘yxatdan o‘tish</button>
+        <div id="register-message" class="message"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="login-modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-header"><h3>Kirish</h3><button class="modal-close" data-close="login-modal">✕</button></div>
+      <p class="modal-sub">Hisobingizga kiring.</p>
+      <div class="modal-content">
+        <input id="login-email" class="input" type="email" placeholder="Email" />
+        <input id="login-password" class="input" type="password" placeholder="Parol" />
+        <button id="login-submit" class="btn btn-primary">Kirish</button>
+        <div id="login-message" class="message"></div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 30; }
+    .modal { position: fixed; inset: 0; display: grid; place-items: center; padding: 1rem; z-index: 40; }
+    .modal-panel { width: min(460px, 100%); background: #fff; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); border:1px solid #e4e8f2; padding: 1rem; }
+    .modal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom: 0.45rem; }
+    .modal-header h3 { margin:0; font-size:1.15rem; color:#1e293b; }
+    .modal-sub { color:#475569; font-size:.92rem; margin-bottom:.7rem; }
+    .modal-content { display:flex; flex-direction:column; gap:.55rem; }
+    .input { border:1px solid #d1d5db; border-radius:10px; padding:.62rem .7rem; width:100%; font-size:.95rem; }
+    .message { min-height:1.2rem; font-size:.9rem; margin-top:.25rem; color:#1d4ed8; }
+    .hidden { display:none !important; }
+  </style>
+
+  <script>
+    const showModal = (id) => {
+      document.getElementById('modal-backdrop').classList.remove('hidden');
+      document.getElementById(id).classList.remove('hidden');
+      document.getElementById(id).setAttribute('aria-hidden', 'false');
+    };
+    const hideModal = (id) => {
+      document.getElementById(id).classList.add('hidden');
+      document.getElementById(id).setAttribute('aria-hidden', 'true');
+      if (!document.querySelector('.modal:not(.hidden)')) {
+        document.getElementById('modal-backdrop').classList.add('hidden');
+      }
+    };
+
+    document.getElementById('open-register').addEventListener('click', () => showModal('register-modal'));
+    document.getElementById('open-login').addEventListener('click', () => showModal('login-modal'));
+    document.getElementById('open-curriculum').addEventListener('click', () => alert('Darslar dasturi: 1) Grammatika 2) So‘z boyligi 3) Tinglab tushunish.'));
+    document.querySelectorAll('.modal-close').forEach(btn => btn.addEventListener('click', (e) => hideModal(e.target.dataset.close)));
+    document.getElementById('modal-backdrop').addEventListener('click', () => {
+      hideModal('register-modal');
+      hideModal('login-modal');
+    });
+
+    const handleForm = async (url, payload, messageEl) => {
+      messageEl.textContent = 'Yuborilmoqda...';
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || 'Servis bilan muammo yuz berdi');
+        }
+        messageEl.style.color = '#16a34a';
+        messageEl.textContent = data.message || 'Muvaffaqiyatli bajarildi';
+      } catch (error) {
+        messageEl.style.color = '#dc2626';
+        messageEl.textContent = error.message || 'Xatolik yuz berdi';
+      }
+    };
+
+    document.getElementById('register-submit').addEventListener('click', () => {
+      const name = document.getElementById('register-name').value.trim();
+      const email = document.getElementById('register-email').value.trim();
+      const password = document.getElementById('register-password').value.trim();
+      const msg = document.getElementById('register-message');
+      if (!name || !email || !password) {
+        msg.style.color = '#dc2626';
+        msg.textContent = 'Iltimos, barcha maydonlarni to‘ldiring.';
+        return;
+      }
+      handleForm('/api/register', { name, email, password }, msg);
+    });
+
+    document.getElementById('login-submit').addEventListener('click', () => {
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+      const msg = document.getElementById('login-message');
+      if (!email || !password) {
+        msg.style.color = '#dc2626';
+        msg.textContent = 'Iltimos, email va parolni kiriting.';
+        return;
+      }
+      handleForm('/api/login', { email, password }, msg);
+    });
+  </script>
 </body>
 </html>
